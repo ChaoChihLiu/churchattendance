@@ -39,7 +39,7 @@ function getSingaporeTime(){
     return timeInCST;
 }
 
-app.get('/getQourum', (req, res) => {
+app.get('/acm/getQuorum', (req, res) => {
   
   const currentTime = getSingaporeTime();
 
@@ -64,7 +64,7 @@ app.get('/getQourum', (req, res) => {
   res.json({chnNum: chnNum, engNum:engNum, totalNum:totalNum, currentTime: currentTime});
 });
 
-app.get('/quorum', (req, res) => {
+app.get('/acm/quorum', (req, res) => {
   if( !chns || chns.length <= 0 ){
     const fileContent = fs.readFileSync('config/ACM2024-ChCong.csv', 'utf8');
     fileContent
@@ -139,7 +139,7 @@ app.get('/quorum', (req, res) => {
 });
 
 // Define a route handler for the root URL
-app.get('/eng', (req, res) => {
+app.get('/acm/eng', (req, res) => {
   if( !engs || engs.length <= 0 ){
     const fileContent = fs.readFileSync('config/ACM2024-EngCong.csv', 'utf8');
     fileContent
@@ -164,7 +164,7 @@ app.get('/eng', (req, res) => {
     res.render('eng', {});
 });
 
-app.post('/eng', (req, res) => {
+app.post('/acm/eng', (req, res) => {
   if( !engs || engs.length <= 0 ){
     const fileContent = fs.readFileSync('config/ACM2024-EngCong.csv', 'utf8');
     fileContent
@@ -273,7 +273,7 @@ async function acquireChnLockWithRetry(maxAttempts, delay) {
   return null;
 }
 
-app.get('/regNew', (req, res) => {
+app.get('/acm/regNew', (req, res) => {
   if( !engs || engs.length <= 0 ){
     const fileContent = fs.readFileSync('config/ACM2024-EngCong.csv', 'utf8');
     fileContent
@@ -298,7 +298,7 @@ app.get('/regNew', (req, res) => {
     res.render('newReg', {});
 });
 
-app.post('/regNew', (req, res) => {
+app.post('/acm/regNew', (req, res) => {
   if( !engs || engs.length <= 0 ){
     const fileContent = fs.readFileSync('config/ACM2024-EngCong.csv', 'utf8');
     fileContent
@@ -356,7 +356,7 @@ async function appendToFile(filePath, newJson){
 }
 
 
-app.get('/chn', (req, res) => {
+app.get('/acm/chn', (req, res) => {
 
   try {
     if( !chns || chns.length <= 0 ){
@@ -387,7 +387,7 @@ app.get('/chn', (req, res) => {
 });
 
 // Define a route handler for a dynamic route
-app.post('/chn/:id', (req, res) => {
+app.post('/acm/chn/:id', (req, res) => {
   if( !chns || chns.length <= 0 ){
     const fileContent = fs.readFileSync('config/ACM2024-ChCong.csv', 'utf8');
     fileContent

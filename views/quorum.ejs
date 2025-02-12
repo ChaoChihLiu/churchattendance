@@ -170,7 +170,7 @@
   <script>
 
       function fetchData(){
-          fetch(`http://localhost:3000/getQourum`)
+          fetch(`http://localhost:3000/acm/getQuorum`)
           .then(response => {
             if (!response.ok) {
               throw new Error('Network response was not ok');
