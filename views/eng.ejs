@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2024 Church ACM Attendance form</title>
+    <title>2025 Check ACM Attendance form</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
     <style>
@@ -141,6 +141,74 @@
       background: #26a9e0;
       }
 
+      /* Container to allow scrolling */
+      .table-container {
+            width: 100%;
+            overflow-x: auto; /* Enables horizontal scroll if necessary */
+        }
+
+        /* Main table layout */
+        .table {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            /* border: 1px solid black; */
+            padding: 5px;
+            min-width: 300px; /* Prevents content from collapsing */
+        }
+
+        .row {
+            display: flex;
+        }
+
+        .cell {
+            flex: 1;
+            padding: 10px;
+            /* border: 1px solid black; */
+            text-align: center;
+            background-color: transparent;
+            word-wrap: break-word; /* Prevents text overflow */
+        }
+
+        .cell input {
+            width: 100%; /* Makes input take full width of the cell */
+            box-sizing: border-box; /* Ensures padding & borders don’t affect width */
+        }
+        .cell label {
+            display: block; /* Ensures it takes full width */
+            text-align: left; /* Aligns text to the left */
+            font-weight: bold;
+        }
+
+        .header {
+            font-weight: bold;
+            background-color: transparent;
+        }
+
+        /* Adjust layout for smaller screens */
+        @media (max-width: 500px) {
+            .row {
+                flex-direction: column; /* Stack each cell in a row */
+                /* border-bottom: 2px solid black; */
+            }
+
+            .cell {
+                width: 100%; /* Make each cell take full row */
+                text-align: left;
+            }
+
+            .cell::before {
+                font-weight: bold;
+                display: block;
+                background: transparent;
+                padding: 5px;
+            }
+
+            /* Add labels before cells to indicate headers */
+            /* .row:not(.header) .cell:nth-child(1)::before { content: "Name"; }
+            .row:not(.header) .cell:nth-child(2)::before { content: "Age"; }
+            .row:not(.header) .cell:nth-child(3)::before { content: "Country"; } */
+        }
     </style>
   </head>
   <body>
@@ -148,12 +216,41 @@
         <img src="/img/church-banner.png" width="100%">
         <form id="myForm">
             <br />
-            <label id="icon" for="birthday"><i class="fas fa-birthday-cake"></i></label>
-            <input type="text" name="birthday" id="birthday" placeholder="Birthday" required/>
-            <span style="display: block; color: blue; text-align: right;">ddmmyy, e.g. 23rd July 1980 -> 230780</span>
-            <label id="icon" for="nric"><i class="fas fa-id-badge"></i></label>
-            <input type="text" name="nric" id="nric" placeholder="NRIC" required/>
-            <span style="display: block; color: blue; text-align: right;">last 3 numbers, e.g. S8060733D -> 733</span>
+            <div class="table-container">
+              <div class="table">
+                  <div class="row">
+                    <div class="cell">
+                      <label for="birthyear">Year of birth</label>
+                      <input type="text" name="birthyear" id="birthyear" placeholder="1980" maxlength="4" required/>
+                    </div>
+                    <div class="cell">
+                      <label for="birthmonth">Month of birth</label>
+                      <input type="text" name="birthmonth" id="birthmonth" placeholder="07" maxlength="2" required/>
+                    </div>
+                    <div class="cell">
+                      <label for="birthday">Date of birth</label>
+                      <input type="text" name="birthday" id="birthday" placeholder="23" maxlength="2" required/>
+                    </div>
+                  </div>
+                  <!-- <div class="row">
+                      <div class="cell" style="grid-column: span 3;">
+                        <span style="display: block; color: red; text-align: right; padding-right: 30px;">your birthday</span>
+                      </div>
+                  </div> -->
+                  <div class="row">
+                    <div class="cell" style="grid-column: span 3;">
+                      <label for="birthyear">NRIC</label>
+                      <input type="text" name="nric" id="nric" placeholder="733" maxlength="3" required/>
+                      <label for="nric" style="color: red;">last 3 numbers, e.g. S8060733D -> 733</label>
+                    </div>
+                  </div>
+                  <!-- <div class="row">
+                    <div class="cell" style="grid-column: span 3;">
+                      <span style="display: block; color: red; text-align: right; padding-right: 30px;">last 3 numbers, e.g. S8060733D -> 733</span>
+                    </div>
+                </div> -->
+              </div>
+            </div>
             <hr/>
             <br />
             <div id="buttonBlock" class="btn-block">
@@ -168,26 +265,36 @@
   <script>
       document.getElementById("myForm").addEventListener("submit", function(event) {
           event.preventDefault();
-          var input = document.getElementById("birthday");
+
+          var input = document.getElementById("birthyear");
+          var birthyear = input.value;
+          input = document.getElementById("birthmonth");
+          var birthmonth = input.value;
+          input = document.getElementById("birthday");
           var birthday = input.value;
+
           input = document.getElementById("nric");
           var nric = input.value;
 
-          if( !birthday || birthday.toString().length <= 0 
+          if( !birthday || birthday.toString().length <= 0
+              || !birthyear || birthyear.toString().length <= 0
+              || !birthmonth || birthmonth.toString().length <= 0 
               || !nric || nric.toString().length <= 0 ){
             return;
           }
+
+          var date = birthday + birthmonth + birthyear.slice(2);
 
           const options = {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({birthday: birthday, nric: nric, isAttended: 1})
+          body: JSON.stringify({birthday: date, nric: nric, isAttended: 1})
         };
 
         // Make the POST request
-        fetch(`http://localhost:3000/acm/eng`, options)
+        fetch(`https://d3q5injsllmv6q.cloudfront.net/acm/eng`, options)
           .then(response => {
             if (response.ok) {
                 const elementToHide = document.getElementById("buttonBlock");
@@ -201,7 +308,8 @@
             elementToShow.style.display = '';
 
             const msg = document.getElementById("msg");
-            msg.textContent = data.result;
+            // msg.textContent = data.result;
+            msg.innerHTML = data.result;
           })
           .catch(error => {
             console.log('Error:', error);

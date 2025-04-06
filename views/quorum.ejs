@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>2024 Church ACM Attendance Statistics</title>
+    <title>2025 Church ACM Attendance Statistics</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
     <style>
@@ -168,9 +168,12 @@
     </div>
   </body>
   <script>
+    function floorToTwoDecimals(num) {
+        return Math.floor(num * 100) / 100;
+    }
 
       function fetchData(){
-          fetch(`http://localhost:3000/acm/getQuorum`)
+          fetch(`https://d3q5injsllmv6q.cloudfront.net/acm/getQuorum`)
           .then(response => {
             if (!response.ok) {
               throw new Error('Network response was not ok');
@@ -187,11 +190,11 @@
             input.textContent = data.totalNum;
 
             input = document.getElementById("percentage");
-            var percentage = Math.floor((data.chnNum + data.engNum)/data.totalNum*100)/100;
+            var percentage = floorToTwoDecimals( ((data.chnNum + data.engNum)/data.totalNum) * 100);
             if( (data.chnNum + data.engNum) == 0 ){
                 percentage = 0;
             }
-            input.textContent = percentage + '%';
+            input.textContent = percentage.toFixed(2) + '%';
             input.textContent += '(33.33%)';
             if( percentage >= 33.33 ){
               input.style.color = 'red';

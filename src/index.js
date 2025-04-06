@@ -66,7 +66,7 @@ app.get('/acm/getQuorum', (req, res) => {
 
 app.get('/acm/quorum', (req, res) => {
   if( !chns || chns.length <= 0 ){
-    const fileContent = fs.readFileSync('config/ACM2024-ChCong.csv', 'utf8');
+    const fileContent = fs.readFileSync('config/ACM2025-ChCong.csv', 'utf8');
     fileContent
       .trim()
       .split('\n')
@@ -86,7 +86,7 @@ app.get('/acm/quorum', (req, res) => {
       });
   }
   if( !engs || engs.length <= 0 ){
-    const fileContent = fs.readFileSync('config/ACM2024-EngCong.csv', 'utf8');
+    const fileContent = fs.readFileSync('config/ACM2025-EngCong.csv', 'utf8');
     fileContent
       .trim()
       .split('\n')
@@ -141,7 +141,7 @@ app.get('/acm/quorum', (req, res) => {
 // Define a route handler for the root URL
 app.get('/acm/eng', (req, res) => {
   if( !engs || engs.length <= 0 ){
-    const fileContent = fs.readFileSync('config/ACM2024-EngCong.csv', 'utf8');
+    const fileContent = fs.readFileSync('config/ACM2025-EngCong.csv', 'utf8');
     fileContent
       .trim()
       .split('\n')
@@ -166,7 +166,7 @@ app.get('/acm/eng', (req, res) => {
 
 app.post('/acm/eng', (req, res) => {
   if( !engs || engs.length <= 0 ){
-    const fileContent = fs.readFileSync('config/ACM2024-EngCong.csv', 'utf8');
+    const fileContent = fs.readFileSync('config/ACM2025-EngCong.csv', 'utf8');
     fileContent
       .trim()
       .split('\n')
@@ -189,7 +189,7 @@ app.post('/acm/eng', (req, res) => {
   const birthday = req.body.birthday;
   const nric = req.body.nric;
 
-  const filePath = 'config/ACM2024-EngCong.csv';
+  const filePath = 'config/ACM2025-EngCong.csv';
 
   var isFound = false;
   engs.forEach((people, index) => {
@@ -237,9 +237,11 @@ app.post('/acm/eng', (req, res) => {
   });
 
   if( isFound ){
-    res.status(200).json({'result': 'Thank you. Your attendance is registered.'});
+    // res.status(200).json({'result': '<span style="color: blue">Thank you. You are on 2025 ACM list.</span>'});
+    res.status(200).json({'result': '<span style="color: blue">Thank you. Your attendance is registered.</span>'});
   }else{
-    res.status(500).json({'result': 'Sorry, can you register your attendance again? You may approach the counter staff for assistance.'});
+    // res.status(500).json({'result': '<span style="color: red">Apologies, we are unable to find your entry, please contact Dn William for assistance <a target="_blank" href="https://api.whatsapp.com/send?phone=6597107955">leave message</a> or contact 9710 7955.</span>'});
+    res.status(500).json({'result': '<span style="color: red">Sorry, can you register your attendance again? You may approach the counter staff for assistance.</span>'});
   }
 });
 
@@ -275,7 +277,7 @@ async function acquireChnLockWithRetry(maxAttempts, delay) {
 
 app.get('/acm/regNew', (req, res) => {
   if( !engs || engs.length <= 0 ){
-    const fileContent = fs.readFileSync('config/ACM2024-EngCong.csv', 'utf8');
+    const fileContent = fs.readFileSync('config/ACM2025-EngCong.csv', 'utf8');
     fileContent
       .trim()
       .split('\n')
@@ -300,7 +302,7 @@ app.get('/acm/regNew', (req, res) => {
 
 app.post('/acm/regNew', (req, res) => {
   if( !engs || engs.length <= 0 ){
-    const fileContent = fs.readFileSync('config/ACM2024-EngCong.csv', 'utf8');
+    const fileContent = fs.readFileSync('config/ACM2025-EngCong.csv', 'utf8');
     fileContent
       .trim()
       .split('\n')
@@ -332,7 +334,7 @@ app.post('/acm/regNew', (req, res) => {
   const newLine = {'no': nextNo, 'nric': nric, 'birthday': birthday, 'attendance': 1}       
   engs[engs.length] = newLine;        
 
-  const filePath = 'config/ACM2024-EngCong.csv';
+  const filePath = 'config/ACM2025-EngCong.csv';
   appendToFile(filePath, newLine);
 
   res.status(200).json({'result': 'New attendance is registered.'});
@@ -360,7 +362,7 @@ app.get('/acm/chn', (req, res) => {
 
   try {
     if( !chns || chns.length <= 0 ){
-      const fileContent = fs.readFileSync('config/ACM2024-ChCong.csv', 'utf8');
+      const fileContent = fs.readFileSync('config/ACM2025-ChCong.csv', 'utf8');
       fileContent
         .trim()
         .split('\n')
@@ -389,7 +391,7 @@ app.get('/acm/chn', (req, res) => {
 // Define a route handler for a dynamic route
 app.post('/acm/chn/:id', (req, res) => {
   if( !chns || chns.length <= 0 ){
-    const fileContent = fs.readFileSync('config/ACM2024-ChCong.csv', 'utf8');
+    const fileContent = fs.readFileSync('config/ACM2025-ChCong.csv', 'utf8');
     fileContent
       .trim()
       .split('\n')
@@ -416,7 +418,7 @@ app.post('/acm/chn/:id', (req, res) => {
   }
   const name = req.body.englishName;
 
-  const filePath = 'config/ACM2024-ChCong.csv';
+  const filePath = 'config/ACM2025-ChCong.csv';
 
   chns.forEach((people, index) => {
     if( id === people.no && name === people.englishName ){

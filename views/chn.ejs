@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>2024 Church ACM Attendance form</title>
+    <title>2025 Church ACM Attendance form</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     <style>
@@ -111,7 +111,7 @@
   <body>
     <div class="testbox">
       <form>
-        <h1>2024 華文部會友大會出席登記</h1>
+        <h1>2025 華文部會友大會出席登記</h1>
         <table id="nameTable">
           <tr class="fixed-header">
             <th>No</th>
@@ -190,7 +190,7 @@
       };
 
       // Make the POST request
-      fetch(`http://localhost:3000/acm/chn/${people.no}`, options)
+      fetch(`https://d3q5injsllmv6q.cloudfront.net/acm/chn/${people.no}`, options)
         .then(response => {
           if (!response.ok) {
             throw new Error('Network response was not ok');
